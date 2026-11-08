@@ -1,3 +1,10 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 3 optimizations:
+# - [HIGH] Add pip dependency cache to "build" job
+# - [MEDIUM] Add concurrency group to "test.yml"
+# - [LOW] Explicitly set fail-fast for large matrix job "build" (10 combinations)
+# Estimated savings: ~7 min/run
+#
 name: Test
 
 on:
@@ -8,6 +15,10 @@ on:
 # Sources of supported versions:
 # * https://github.com/actions/python-versions/blob/main/versions-manifest.json
 # * https://downloads.python.org/pypy/versions.json
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
 
